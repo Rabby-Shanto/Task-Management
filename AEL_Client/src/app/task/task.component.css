@@ -1,0 +1,45 @@
+
+  
+  .status-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .status-container mat-icon {
+    font-size: 22px; /* Smaller icon size */
+    margin-right: 4px;
+  }
+  
+
+  
+  mat-chip.primary {
+    background-color: #1976d2;
+    color: white;
+    font-size: 10px;
+  }
+
+  mat-chip.accent {
+    background-color: #ff4081;
+    color: white;
+  }
+  
+  mat-chip.warn {
+    background-color: #ff5722;
+    color: white;
+  }
+  
+  mat-card {
+    margin: 20px;
+  }
+  
+  mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  table .mat-mdc-header-cell {
+    padding-top: 15px;
+    margin-left: -12px;
+  }
+  mat-cell:last-of-type{
+    padding: 12px;
+  }

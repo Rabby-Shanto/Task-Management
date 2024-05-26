@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+    <h1>{{data ? 'Edit' : 'Add'}} Task Form</h1>
+  </div>
+  <form [formGroup]="taskForm" (ngSubmit)="OnSubmit()">
+    <div mat-dialog-content class="content">
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Task Title:</mat-label>
+          <input matInput type="text" placeholder="Enter Your Task" formControlName="title">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Description:</mat-label>
+          <textarea matInput placeholder="Enter a description" formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Due date:</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dueDate">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="row" *ngIf="data">
+        <input type="hidden" formControlName="taskId">
+        <mat-form-field appearance="outline">
+          <mat-label>Status:</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="Completed">Completed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  
+    <div mat-dialog-actions class="action-btns">
+      <button style="margin: 10px;" mat-raised-button color="accent" type="submit">{{data ? 'Update' : 'Save'}}</button>
+      <button mat-raised-button type="button" color="warn" [mat-dialog-close]="false">Cancel</button>
+    </div>
+  </form>
+  

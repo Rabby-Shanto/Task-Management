@@ -1,0 +1,85 @@
+<mat-card>
+  <button mat-raised-button color="accent" (click)="openAddEditTaskDialog()">ADD TASK</button>
+  <mat-card-header>
+    <mat-card-title>
+      <h4 style="font-weight: bold;margin-left: 15px;">Task Management System</h4>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <input (keyup)="applyFilter($event)" matInput placeholder="Filter by Status">
+    </mat-form-field>
+    <table mat-table matSort [dataSource]="dataSources" >
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dueDate">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Due Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.dueDate | date: 'short'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="status-container">
+            <mat-icon *ngIf="element.status === 'InProgress'" style="color: blue;">play_arrow</mat-icon>
+            <mat-icon *ngIf="element.status === 'Completed'">done</mat-icon>
+            <mat-icon *ngIf="element.status !== 'InProgress' && element.status !== 'Completed'">incomplete</mat-icon>
+            <mat-chip-listbox>
+              <mat-chip [color]="getStatusColor(element.status)" highlighted>
+                {{element.status}}
+              </mat-chip>
+            </mat-chip-listbox>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="openEditForm(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="deleteTask(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayCols"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayCols;"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-footer>
+    <button mat-raised-button color="warn" (click)="removeSelectedRows()">
+      DELETE SELECTED
+    </button>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-footer>
+</mat-card>
